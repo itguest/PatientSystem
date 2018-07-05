@@ -21,3 +21,8 @@ Route::get('/app/create', 'Admin\AppointmentCrudController@setup')->name('home')
 // Route::get('/admin/appointment', 'Admin\AppointmentCrudController@setup');
 Route::post('/app/store', 'Admin\AppointmentCrudController@store');
 Route::post('/app/update', 'Admin\AppointmentCrudController@update');
+// Search Routes
+
+Route::get('/search','SearchController@index');
+Route::post('/search','SearchController@search');
+// Route::post('/search/results','SearchController@search');

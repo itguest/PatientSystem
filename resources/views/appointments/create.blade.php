@@ -104,6 +104,7 @@
                     
                     
             </form>
+            
                  @include('errors.fomrs_error')
         </div>
     </div>
