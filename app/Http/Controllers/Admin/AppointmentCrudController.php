@@ -37,10 +37,10 @@ class AppointmentCrudController extends CrudController
         $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
-        // $this->crud->addField($options, 'update/create/both');
-        // $this->crud->addFields($array_of_arrays, 'update/create/both');
-        // $this->crud->removeField('name', 'update/create/both');
-        // $this->crud->removeFields($array_of_names, 'update/create/both');
+        $this->crud->addField($options, 'update/create/both');
+        $this->crud->addFields($array_of_arrays, 'update/create/both');
+        $this->crud->removeField('name', 'update/create/both');
+        $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack

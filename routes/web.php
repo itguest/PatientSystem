@@ -10,19 +10,23 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
-    return view('layout');
+    return view('welcome');
 });
+// Route::get('/', function () {
+//     return view('layout');
+// });
 
-//appoinments 
+// //appoinments 
  
-Route::get('/app/create', 'Admin\AppointmentCrudController@setup')->name('home');
-// Route::get('/admin/appointment', 'Admin\AppointmentCrudController@setup');
-Route::post('/app/store', 'Admin\AppointmentCrudController@store');
-Route::post('/app/update', 'Admin\AppointmentCrudController@update');
-// Search Routes
+// Route::get('/admin/app', 'TheAppointmentCrudController@setup');
+// Route::get('/app/create', 'Admin\AppointmentCrudController@setup')->name('home');
+// Route::get('/app/{app}', 'Admin\AppointmentCrudController@index');
+// // Route::get('/admin/appointment', 'Admin\AppointmentCrudController@setup');
+// Route::post('/app/store', 'Admin\AppointmentCrudController@store');
+// Route::post('/app/update', 'Admin\AppointmentCrudController@update');
+// // Search Routes
 
-Route::get('/search','SearchController@index');
-Route::post('/search','SearchController@search');
-// Route::post('/search/results','SearchController@search');
+// Route::get('/search','SearchController@index');
+// Route::post('/search','SearchController@search');
+// // Route::post('/search/results','SearchController@search');

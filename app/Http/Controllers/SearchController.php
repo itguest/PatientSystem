@@ -17,17 +17,25 @@ class SearchController extends Controller
     public function search(Request $request){
     echo"enterd";
         if($request->ajax()){
+            $where = [] ;
             // `check if patient number entered 
             if ( $request['p_number'] ) {
-                $pa_data = Patient::where('P_number', '=', $request['p_number'])->get();
-                $pa_id   = $pa_data->pluck('id')->first();
-                $pa_name = $pa_data->pluck('P_name')->first();
-                $apps = Appointment::where('Patient_id', '=',$pa_id )->get();
+                $where[] = ['P_number' ,'=', $request['p_number']];
+                // $pa_data = Patient::where('P_number', '=', $request['p_number'])->get();
+                // $pa_id   = $pa_data->pluck('id')->first();
+                // $pa_name = $pa_data->pluck('P_name')->first();
+                // $apps = Appointment::where('Patient_id', '=',$pa_id )->get();
             }else{
                 $apps = Appointment::where('a_date', '=',$request['p_number'] )
                 ->where('color', 'blue')
                 ->get();
             }
+            
+            if($request['start_date']) {
+                $where[] = ['start_date' ,'=', $request['start_date']];
+
+            }
+            Patient::where($where)->get();
             // get p_id from appointments
 
                 $output="";
@@ -38,14 +46,11 @@ class SearchController extends Controller
                 //     ->orWhere('name', 'like', '%John%')
                 //     ->whereIn('id', [1, 2, 3, 4, 5])
                 //     ->get();
-
+                 
                 if($apps){
                 
                 foreach ($apps as $key => $app) {
-                
-                $output.='<tr ondblclick="alert()">'.
-                '<td>'.$app->a_date.'</td>'.
-                
+                '<td>'.$app->a_date.'</td>'.                
                 '<td>'.$request['p_number'].'</td>'.
                 '<td>'. $pa_name.'</td>'.
                 '<td>'. $app->a_clinic.'</td>'.
