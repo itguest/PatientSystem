@@ -24,13 +24,13 @@ class TheAppointmentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         // $this->crud->setModel("App\Models\Example");
-        $this->crud->setRoute("admin/app");
+        // $this->crud->setRoute("admin/app");
             // OR $this->crud->setRouteName("admin.example");
         // $this->crud->setEntityNameStrings("example", "examples");
 
 
         $this->crud->setModel('App\Models\TheAppointment');
-        // $this->crud->setRoute(config('backpack.base.route_prefix') . '/theappointment');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/theappointment');
         $this->crud->setEntityNameStrings('theappointment', 'the_appointments');
 
         /*
@@ -41,13 +41,23 @@ class TheAppointmentCrudController extends CrudController
 
         $this->crud->setFromDb();
 
+
+        // $this->crud->setColumns(['name', 'slug','hh']);
+        // 	$this->crud->addField([
+		// 	'name' => 'name',
+		// 	'label' => "Tag name"
+		// ]);
+    	// 	$this->crud->addField([
+		// 	'name' => 'slug',
+		// 	'label' => "URL Segment (slug)"
+		// ]);
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
 
-        // ------ CRUD COLUMNS
+        // // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
@@ -66,7 +76,7 @@ class TheAppointmentCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
         // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
@@ -87,12 +97,12 @@ class TheAppointmentCrudController extends CrudController
         // Please note the drawbacks of this though:
         // - 1-n and n-n columns are not searchable
         // - date and datetime columns won't be sortable anymore
-        // $this->crud->enableAjaxTable();
+        $this->crud->enableAjaxTable();
 
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
         // Does not work well with AJAX datatables.
-        // $this->crud->enableExportButtons();
+        $this->crud->enableExportButtons();
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');

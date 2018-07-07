@@ -27,6 +27,7 @@ class TheAppointmentRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
+            'patient_id'=> 'required|min:5|max:255'
         ];
     }
 

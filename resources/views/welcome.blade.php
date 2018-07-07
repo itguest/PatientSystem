@@ -1,22 +1,4 @@
-Skip to content
- 
-Search or jump to…
 
-Pull requests
-Issues
-Marketplace
-Explore
- @Afnan-Abdulhamed
-Sign out
- Watch 1
- Star 0  Fork 0 itguest/PatientSystem
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
-Branch: master Find file Copy path PatientSystem/resources/views/welcome.blade.php
-d5f8c0f  3 days ago
- Mohamed Magdy install laravel
-0 contributors
-RawBlameHistory    
-96 lines (82 sloc)  2.67 KB
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>

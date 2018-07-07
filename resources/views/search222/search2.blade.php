@@ -1,4 +1,4 @@
-@extends('layout')
+<!-- @extends('layout')
 
 @section('content')
     <div class="container">
@@ -95,4 +95,4 @@ $('#start_date , #end_date , #clinic').change(search_app);
 
 
     
-@endsection
+@endsection -->

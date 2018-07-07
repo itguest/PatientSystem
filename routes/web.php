@@ -19,7 +19,14 @@ Route::get('/', function () {
 
 // //appoinments 
  
-// Route::get('/admin/app', 'TheAppointmentCrudController@setup');
+Route::get('/admin/app', 'Admin\TheAppointmentCrudController@index');
+Route::get('/admin/theappointment/create', 'Admin\TheAppointmentCrudController@store');
+
+
+
+
+
+Route::get('/admin/thePatient', 'Admin\The_patientCrudController@index');
 // Route::get('/app/create', 'Admin\AppointmentCrudController@setup')->name('home');
 // Route::get('/app/{app}', 'Admin\AppointmentCrudController@index');
 // // Route::get('/admin/appointment', 'Admin\AppointmentCrudController@setup');
@@ -27,6 +34,3 @@ Route::get('/', function () {
 // Route::post('/app/update', 'Admin\AppointmentCrudController@update');
 // // Search Routes
 
-// Route::get('/search','SearchController@index');
-// Route::post('/search','SearchController@search');
-// // Route::post('/search/results','SearchController@search');

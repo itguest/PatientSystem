@@ -43,7 +43,7 @@ return [
     //     'middleware' => ['web', config('backpack.base.middleware_key', 'admin')], //Set to null to disable middleware filter
     // ],
          'route' => [
-        'prefix'     => 'admin/elfinder',
+        'prefix'     => '/admin/elfinder',
         'middleware' => ['web', 'auth'], //Set to null to disable middleware filter
     ],
     /*
