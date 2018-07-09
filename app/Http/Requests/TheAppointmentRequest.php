@@ -27,7 +27,13 @@ class TheAppointmentRequest extends FormRequest
     {
         return [
             // 'name' => 'required|min:5|max:255'
-            'patient_id'=> 'required|min:5|max:255'
+            'patient_id'=> 'required|alpha_num|size:16',
+            'a_clinic'=> 'required',
+            'a_date'=> 'required',
+            'a_start_time'=> 'required',
+            'a_end_time'=> 'required',
+            'a_cost'=> 'required',
+            'a_comments'=>'nullable',
         ];
     }
 

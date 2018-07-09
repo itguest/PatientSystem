@@ -8,6 +8,7 @@ use Backpack\CRUD\CrudTrait;
 class The_patient extends Model
 {
     use CrudTrait;
+        public $timestamps = false;
 
     /*
     |--------------------------------------------------------------------------
@@ -15,11 +16,11 @@ class The_patient extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'the_patients';
+    protected $table = 'the_patient';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $fillable = ['P_number','P_name','P_gender','P_mobile','p_number'];
     // protected $hidden = [];
     // protected $dates = [];
 

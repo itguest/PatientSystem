@@ -24,8 +24,8 @@ class The_patientCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel('App\Models\The_patient');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/the_patient');
-        $this->crud->setEntityNameStrings('the_patient', 'the_patients');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/thePatient');
+        $this->crud->setEntityNameStrings('Patient', 'Patients');
 
         /*
         |--------------------------------------------------------------------------
@@ -35,19 +35,20 @@ class The_patientCrudController extends CrudController
 
         $this->crud->setFromDb();
 
+        
         // ------ CRUD FIELDS
-        $this->crud->addField($options, 'update/create/both');
-        $this->crud->addFields($array_of_arrays, 'update/create/both');
-        $this->crud->removeField('name', 'update/create/both');
-        $this->crud->removeFields($array_of_names, 'update/create/both');
+        // $this->crud->addField($options, 'update/create/both');
+        // $this->crud->addFields($array_of_arrays, 'update/create/both');
+        // $this->crud->removeField('name', 'update/create/both');
+        // $this->crud->removeFields($array_of_names, 'update/create/both');
 
         // ------ CRUD COLUMNS
-        $this->crud->addColumn(); // add a single column, at the end of the stack
-        $this->crud->addColumns(); // add multiple columns, at the end of the stack
-        $this->crud->removeColumn('column_name'); // remove a column from the stack
-        $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
+        // $this->crud->addColumn(); // add a single column, at the end of the stack
+        // $this->crud->addColumns(); // add multiple columns, at the end of the stack
+        // $this->crud->removeColumn('column_name'); // remove a column from the stack
+        // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
+        // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
+        // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
@@ -60,22 +61,22 @@ class The_patientCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
 
         // ------ CRUD REORDER
-        $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
+        // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
 
         // ------ CRUD DETAILS ROW
-        $this->crud->enableDetailsRow();
+        // $this->crud->enableDetailsRow();
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('details_row');
         // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
 
         // ------ REVISIONS
         // You also need to use \Venturecraft\Revisionable\RevisionableTrait;
         // Please check out: https://laravel-backpack.readme.io/docs/crud#revisions
-        $this->crud->allowAccess('revisions');
+        // $this->crud->allowAccess('revisions');
 
         // ------ AJAX TABLE VIEW
         // Please note the drawbacks of this though:
@@ -86,7 +87,7 @@ class The_patientCrudController extends CrudController
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
         // Does not work well with AJAX datatables.
-        $this->crud->enableExportButtons();
+        // $this->crud->enableExportButtons();
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
@@ -120,5 +121,8 @@ class The_patientCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+    public function getData(UpdateRequest $request){
+        return($request);
     }
 }

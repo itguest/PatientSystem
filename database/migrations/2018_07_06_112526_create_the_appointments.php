@@ -14,13 +14,13 @@ class CreateTheAppointments extends Migration
     {
         Schema::create('the_appointments', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('patient_id');
-            $table->string('a_status');
+            $table->foreign('P_number')->references('patient_id')->on('the_patient');
+            $table->enum('a_status', ['Confirmed', 'To Confirm' , 'Cancelled-patient treated','Closed-visit skipped','Cancelled']);
             $table->string('a_clinic');
             $table->date('a_date');
             $table->time('a_start_time');
             $table->time('a_end_time');
-            $table->integer('a_cost');
+            $table->float('a_cost');
             $table->text('a_comments');
         });
     }

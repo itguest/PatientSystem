@@ -8,6 +8,8 @@ use Backpack\CRUD\CrudTrait;
 class TheAppointment extends Model
 {
     use CrudTrait;
+    public $timestamps = false;
+
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +21,7 @@ class TheAppointment extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $fillable = ['id','patient_id' , 'a_status','a_clinic','a_date','a_start_time','a_end_time','a_cost','a_comments'];
     // protected $hidden = [];
     // protected $dates = [];
 

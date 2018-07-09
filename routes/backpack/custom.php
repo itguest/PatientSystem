@@ -12,6 +12,3 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
 }); // this should be the absolute last line of this file
-    CRUD::resource('theAppointment', 'TheAppointmentCrudController');
-    CRUD::resource('thePatient', 'ThePatientCrudController');
-    CRUD::resource('tag', 'TagCrudController');

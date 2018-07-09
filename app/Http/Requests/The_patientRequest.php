@@ -26,7 +26,12 @@ class The_patientRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+          
+            'P_number'=> 'required|alpha_num|between:1,16',
+            'P_name'=> 'required|alpha',
+            'P_gender'=> 'required',
+            'P_mobile'=> 'required|digits:11',
+        
         ];
     }
 

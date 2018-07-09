@@ -7,7 +7,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\TheAppointmentRequest as StoreRequest;
 use App\Http\Requests\TheAppointmentRequest as UpdateRequest;
-
+use App\Models\The_patient;
 /**
  * Class TheAppointmentCrudController
  * @package App\Http\Controllers\Admin
@@ -16,7 +16,10 @@ use App\Http\Requests\TheAppointmentRequest as UpdateRequest;
 class TheAppointmentCrudController extends CrudController
 {
     public function setup()
-    {
+    { 
+
+
+        //FIXME:  get the clicnics from clinic s table ---------------------------- 
 
         /*
         |--------------------------------------------------------------------------
@@ -30,7 +33,7 @@ class TheAppointmentCrudController extends CrudController
 
 
         $this->crud->setModel('App\Models\TheAppointment');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/theappointment');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/app');
         $this->crud->setEntityNameStrings('theappointment', 'the_appointments');
 
         /*
@@ -39,10 +42,169 @@ class TheAppointmentCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setFromDb();
+        // $this->crud->setFromDb();
+        $feilds = [
+                $patientId = [  
+                'name' => 'patient_id',
+                'label' => 'Patient Number',
+                'type' => 'text',
+                'attributes' => [
+                'id' => 'p_number'
+                ], 
+            ],
+                $patientName = [  
+                'name' => 'P_name',
+                'label' => 'Patient Name',
+                'type' => 'text',
+                'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+            ],
+            // $patientName = [  
+            //     'name' => 'P_name',
+            //     'label' => 'Patient Name',
+            //     'type' => 'select',
+            //     'name' => 'patient_id', // the db column for the foreign key
+            //     'entity' => 'Patient', // the method that defines the relationship in your Model
+            //     'attribute' => 'P_name', // foreign key attribute that is shown to user
+            //     'model' => "App\Models\The_patient" // foreign key model
+            // ],
+                $patientMobile = [  
+                'name' => 'P_number',
+                'label' => 'Mobile',
+                'type' => 'number',
+                'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+                ],
+                
+                $patientGender = [  
+                'name' => 'P_gender',
+                'label' => 'Gender',
+                'type' => 'radio',
+                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
+                    "Male"   => "M",
+                    "Female" => "F"
+                    ],
+                    'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+                ],
+                $status = [  
+                'name' => 'a_status',
+                'label' => 'Status',
+                'type' => 'radio',
+                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
+                    "Confirmed" => "Confirmed",
+                    "To Confirm" => "To Confirm",
+                    "Cancelled-patient treated" => "Cancelled-patient treated",
+                    "Closed-visit skipped" => "Closed-visit skipped",
+                    "Cancelled" => "Cancelled"
+                 ],
+                ],
+                $clinic = [  
+                'name' => 'a_clinic',
+                'label' => 'Clinic',
+                'type' => 'select_from_array',
+                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
+                    "branch1" => "branch1",
+                    "branch2" => "branch2",
+                    "branch3" => "branch3",
+                 ],
+                ],
+                $appDate = [  
+                'name' => 'a_date',
+                'label' => 'Appointment Date :',
+                'type' => 'date',
+                'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+                ],
+                $startTime = [  
+                'name' => 'a_start_time',
+                'label' => 'Appointment Starts at:',
+                'type' => 'time',
+                'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+                ],
+                $endTime = [  
+                'name' => 'a_end_time',
+                'label' => 'Appointment Ends at:',
+                'type' => 'time',
+                'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+                ]
+                ],
+                $cost = [  
+                'name' => 'a_cost',
+                'label' => 'Cost',
+                'type' => 'text',
+                ],
+                $commnet = [  
+                'name' => 'a_comments',
+                'label' => 'Comments',
+                'type' => 'textarea',
+                ],
+                //reset button
+               
+                ];
+        
+        $this->crud->addFields($feilds, 'update/create/both');
+        //reset button
+        $reset= [   // CustomHTML
+                    'name' => 'reset',
+                    'type' => 'custom_html',
+                    'value' => '<button type="button" class="btn btn-primary" onclick="this.form.reset();">Reset</button>'
+        ];
+        $this->crud->addField($reset, 'create');
+
+        // search filters -------------------------------------------------------------<3 <3
+        //date
+        $this->crud->addFilter([ 
+            'type' => 'date_range',
+            'name' => 'a_date',
+            'label'=> 'From - To'
+            ], 
+            false, 
+            function($value) { // if the filter is active
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'a_date', '>=', $dates->from);
+                $this->crud->addClause('where', 'a_date', '<=', $dates->to);
+            } );
+        
+        //patient number
+        $this->crud->addFilter([ 
+            'type' => 'text',
+            'name' => 'patient_id',
+            'label'=> 'Patient Number'
+            ], 
+            false, 
+            function($value) { // if the filter is active
+                $this->crud->addClause('where', 'patient_id', $value); 
+        } );
+        //clinic
+        $this->crud->addFilter([ 
+            'type' => 'select2',
+            'name' => 'a_clinic',
+            'label'=> 'Clinic'
+            ], 
+            function() {
+            return [
+                'branch1' => 'branch1',
+                'branch2' => 'branch2',
+                'branch3' => 'branch3',
+                ];
+            },
+            function($value) { // if the filter is active
+                $this->crud->addClause('where', 'a_clinic', $value); 
+        } );
+        
+        // List columns
+        $this->crud->setColumns(['patient_id','a_status','a_date','a_start_time','a_end_time','a_clinic']);
 
 
-        // $this->crud->setColumns(['name', 'slug','hh']);
+
         // 	$this->crud->addField([
 		// 	'name' => 'name',
 		// 	'label' => "Tag name"
@@ -123,6 +285,16 @@ class TheAppointmentCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
+        // new user added to tha patients table
+        if (!The_patient::where('P_number', '=', $request['number'])->exists()) {
+            $patient = new The_patient;
+            $patient->P_number = $request['patient_id'];
+            $patient->P_name = $request['P_name'];
+            $patient->P_mobile = $request['P_number'];
+            $patient->P_gender = $request['P_gender'];
+            $patient->save();
+        }
+        
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
@@ -131,10 +303,15 @@ class TheAppointmentCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
+        
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
+
+
+
+
 }

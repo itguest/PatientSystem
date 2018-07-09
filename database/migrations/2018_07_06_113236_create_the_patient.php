@@ -13,11 +13,12 @@ class CreateThePatient extends Migration
     public function up()
     {
         Schema::create('the_patient', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('P_number')->unique();
+            // $table->increments('id');
+            // $table->text('P_number')->unique();
+            $table->string('P_number',16)->unique();
             $table->string('P_name');
-            $table->integer('P_mobile');
-            $table->string('P_gender');
+            $table->string('P_mobile',11);
+            $table->char('P_gender',1);
         });
     }
 
