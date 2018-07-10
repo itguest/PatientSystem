@@ -8,6 +8,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\TheAppointmentRequest as StoreRequest;
 use App\Http\Requests\TheAppointmentRequest as UpdateRequest;
 use App\Models\The_patient;
+use App\Models\Clinic;
 /**
  * Class TheAppointmentCrudController
  * @package App\Http\Controllers\Admin
@@ -34,13 +35,14 @@ class TheAppointmentCrudController extends CrudController
 
         $this->crud->setModel('App\Models\TheAppointment');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/app');
-        $this->crud->setEntityNameStrings('theappointment', 'the_appointments');
+        $this->crud->setEntityNameStrings('Appointment', 'Appointments');
 
         /*
         |--------------------------------------------------------------------------
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
+    
 
         // $this->crud->setFromDb();
         $feilds = [
@@ -49,42 +51,43 @@ class TheAppointmentCrudController extends CrudController
                 'label' => 'Patient Number',
                 'type' => 'text',
                 'attributes' => [
-                'id' => 'p_number'
+                'id' => 'number'
                 ], 
             ],
                 $patientName = [  
-                'name' => 'P_name',
+                'name' => 'name',
                 'label' => 'Patient Name',
                 'type' => 'text',
+                'attributes' => [
+                    'id' => 'name'
+                    ],
                 'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
                 ]
             ],
-            // $patientName = [  
-            //     'name' => 'P_name',
-            //     'label' => 'Patient Name',
-            //     'type' => 'select',
-            //     'name' => 'patient_id', // the db column for the foreign key
-            //     'entity' => 'Patient', // the method that defines the relationship in your Model
-            //     'attribute' => 'P_name', // foreign key attribute that is shown to user
-            //     'model' => "App\Models\The_patient" // foreign key model
-            // ],
+  
                 $patientMobile = [  
-                'name' => 'P_number',
+                'name' => 'mobile',
                 'label' => 'Mobile',
-                'type' => 'number',
+                'type' => 'text',
+                'attributes' => [
+                    'id' => 'mobile'
+                    ],
                 'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
                 ]
                 ],
                 
                 $patientGender = [  
-                'name' => 'P_gender',
+                'name' => 'gender',
                 'label' => 'Gender',
                 'type' => 'radio',
-                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
-                    "Male"   => "M",
-                    "Female" => "F"
+                'options'  => [ 
+                    "Male"   => "Male",
+                    "Female" => "Female"
+                    ],
+                    'attributes' => [
+                    'id' => 'gender'
                     ],
                     'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
@@ -94,7 +97,7 @@ class TheAppointmentCrudController extends CrudController
                 'name' => 'a_status',
                 'label' => 'Status',
                 'type' => 'radio',
-                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
+                'options'  => [ 
                     "Confirmed" => "Confirmed",
                     "To Confirm" => "To Confirm",
                     "Cancelled-patient treated" => "Cancelled-patient treated",
@@ -106,11 +109,7 @@ class TheAppointmentCrudController extends CrudController
                 'name' => 'a_clinic',
                 'label' => 'Clinic',
                 'type' => 'select_from_array',
-                'options'  => [ // the key will be stored in the db, the value will be shown as label; 
-                    "branch1" => "branch1",
-                    "branch2" => "branch2",
-                    "branch3" => "branch3",
-                 ],
+                'options'  => Clinic::pluck('name')->toArray(),
                 ],
                 $appDate = [  
                 'name' => 'a_date',
@@ -280,18 +279,31 @@ class TheAppointmentCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+
+        /**
+         * 
+         * custom view for edits
+         * 
+         */
+
+
+            // $this->crud->setEditView('editApp');
+
     }
 
+    // public function show(StoreRequest $request){
+
+    // }
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
         // new user added to tha patients table
-        if (!The_patient::where('P_number', '=', $request['number'])->exists()) {
+        if (!The_patient::where('number', '=', $request['patient_id'])->exists()) {
             $patient = new The_patient;
-            $patient->P_number = $request['patient_id'];
-            $patient->P_name = $request['P_name'];
-            $patient->P_mobile = $request['P_number'];
-            $patient->P_gender = $request['P_gender'];
+            $patient->number = $request['patient_id'];
+            $patient->name = $request['name'];
+            $patient->mobile = $request['mobile'];
+            $patient->gender = $request['gender'];
             $patient->save();
         }
         
