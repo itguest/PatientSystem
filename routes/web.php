@@ -13,7 +13,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/patinetDate', 'The_patientCrudController@getData');
+
+Route::post('/patinetDate', 'Admin\The_patientCrudController@getData');
 
 
 

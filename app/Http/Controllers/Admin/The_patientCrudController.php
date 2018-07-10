@@ -7,6 +7,8 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\The_patientRequest as StoreRequest;
 use App\Http\Requests\The_patientRequest as UpdateRequest;
+use App\Models\The_patient;
+use Illuminate\Http\Request;
 
 /**
  * Class The_patientCrudController
@@ -34,6 +36,59 @@ class The_patientCrudController extends CrudController
         */
 
         $this->crud->setFromDb();
+          $feilds = [
+                $patientId = [  
+                'name' => 'number',
+                'label' => 'Patient Number (file number)',
+                'type' => 'text',
+                'attributes' => [
+                    'id' => 'number'
+                    ], 
+                ],
+                $patientName = [  
+                'name' => 'name',
+                'label' => 'Patient Name',
+                'type' => 'text',
+                'attributes' => [
+                    'id' => 'number'
+                    ],
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                    ]
+                ],
+                $patientMobile = [  
+                'name' => 'mobile',
+                'label' => 'Mobile',
+                'type' => 'text',
+                'attributes' => [
+                    'id' => 'mobile'
+                    ], 
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                    ]
+                ],
+                
+                $patientGender = [  
+                'name' => 'gender',
+                'label' => 'Gender',
+                'type' => 'radio',
+                'options'  => [ 
+                    "Male"   => "Male",
+                    "Female" => "Female"
+                    ],
+                    'attributes' => [
+                    'id' => 'gender'
+                    ], 
+                    'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                    ]
+                ],
+               
+               
+                ];
+        
+        $this->crud->addFields($feilds, 'update/create/both');
+         $this->crud->setColumns(['number' , 'name' , 'mobile','gender']);
 
         
         // ------ CRUD FIELDS
@@ -87,7 +142,7 @@ class The_patientCrudController extends CrudController
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
         // Does not work well with AJAX datatables.
-        // $this->crud->enableExportButtons();
+        $this->crud->enableExportButtons();
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
@@ -122,7 +177,24 @@ class The_patientCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
-    public function getData(UpdateRequest $request){
-        return($request);
+    /**
+     * 
+     * auto file tha patien name,gender an mobile feilds after patinet number enterd
+     */
+    public function getData(Request $request){
+
+         if($request->ajax()){
+            // return Response( the_patient::where('number', '=', $request['number'])->firstOrFail() );
+            if( the_patient::where('number', '=', $request['number'])->exists()){
+                $patinet = the_patient::where('number', '=', $request['number'])->get();
+
+                return Response($patinet);
+                }
+                else{
+                    return'';
+                }
+            }
+       
+
     }
 }

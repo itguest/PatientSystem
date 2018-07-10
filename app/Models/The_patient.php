@@ -20,7 +20,7 @@ class The_patient extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['P_number','P_name','P_gender','P_mobile','p_number'];
+    protected $fillable = ['number','name','gender','mobile'];
     // protected $hidden = [];
     // protected $dates = [];
 
