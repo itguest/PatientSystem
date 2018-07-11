@@ -35,7 +35,7 @@ class The_patientCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $this->crud->setFromDb();
+        // $this->crud->setFromDb();
           $feilds = [
                 $patientId = [  
                 'name' => 'number',
@@ -185,14 +185,14 @@ class The_patientCrudController extends CrudController
 
          if($request->ajax()){
             // return Response( the_patient::where('number', '=', $request['number'])->firstOrFail() );
-            if( the_patient::where('number', '=', $request['number'])->exists()){
-                $patinet = the_patient::where('number', '=', $request['number'])->get();
+            // if( the_patient::where('number', '=', $request['number'])->exists()){
+                $patinet = the_patient::where('number', '=', $request['number'])->firstOrFail();
 
                 return Response($patinet);
-                }
-                else{
-                    return'';
-                }
+                // // }
+                // else{
+                //     return'';
+                // }
             }
        
 
