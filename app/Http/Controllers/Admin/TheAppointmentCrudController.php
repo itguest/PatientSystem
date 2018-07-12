@@ -74,8 +74,8 @@ class TheAppointmentCrudController extends CrudController
                     'id' => 'mobile'
                     ],
                 'wrapperAttributes' => [
-                'class' => 'form-group col-md-4'
-                ]
+                    'class' => 'form-group col-md-4'
+                    ]
                 ],
                 
                 $patientGender = [  
@@ -83,21 +83,22 @@ class TheAppointmentCrudController extends CrudController
                 'label' => 'Gender',
                 'type' => 'radio',
                 'options'  => [ 
-                    "Male"   => "Male",
-                    "Female" => "Female"
+                    "M"   => "M",
+                    "F" => "F"
                     ],
                     'attributes' => [
                     'id' => 'gender'
                     ],
                     'wrapperAttributes' => [
-                'class' => 'form-group col-md-4'
-                ]
+                    'class' => 'form-group col-md-4'
+                    ]
                 ],
                 $status = [  
                 'name' => 'a_status',
                 'label' => 'Status',
                 'type' => 'radio',
                 'options'  => [ 
+                    //FIXME: get these from DB
                     "Confirmed" => "Confirmed",
                     "To Confirm" => "To Confirm",
                     "Cancelled-patient treated" => "Cancelled-patient treated",
@@ -105,35 +106,45 @@ class TheAppointmentCrudController extends CrudController
                     "Cancelled" => "Cancelled"
                  ],
                 ],
+                // $clinic = [  
+                // 'label' => 'Clinic',
+                // 'type' => 'select',
+                // 'name' => 'a_clinic', // the db column for the foreign key
+                // 'entity' => 'clinic', // the method that defines the relationship in your Model
+                // 'attribute' => 'name', // foreign key attribute that is shown to user
+                // 'model' => "App\Models\Clinic" // foreign key model
+                // ],
                 $clinic = [  
-                'name' => 'a_clinic',
                 'label' => 'Clinic',
-                'type' => 'select_from_array',
-                'options'  => Clinic::pluck('name')->toArray(),
+                'type' => 'select',
+                'name' => 'clinic_id', // the db column for the foreign key
+                'entity' => 'clinic', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model' => "App\Models\Clinic" // foreign key model
                 ],
                 $appDate = [  
                 'name' => 'a_date',
                 'label' => 'Appointment Date :',
                 'type' => 'date',
                 'wrapperAttributes' => [
-                'class' => 'form-group col-md-4'
-                ]
+                    'class' => 'form-group col-md-4'
+                    ]
                 ],
                 $startTime = [  
                 'name' => 'a_start_time',
                 'label' => 'Appointment Starts at:',
                 'type' => 'time',
                 'wrapperAttributes' => [
-                'class' => 'form-group col-md-4'
-                ]
+                    'class' => 'form-group col-md-4'
+                    ]
                 ],
                 $endTime = [  
                 'name' => 'a_end_time',
                 'label' => 'Appointment Ends at:',
                 'type' => 'time',
                 'wrapperAttributes' => [
-                'class' => 'form-group col-md-4'
-                ]
+                    'class' => 'form-group col-md-4'
+                    ]
                 ],
                 $cost = [  
                 'name' => 'a_cost',
@@ -189,18 +200,25 @@ class TheAppointmentCrudController extends CrudController
             'label'=> 'Clinic'
             ], 
             function() {
-            return [
-                'branch1' => 'branch1',
-                'branch2' => 'branch2',
-                'branch3' => 'branch3',
-                ];
+            return Clinic::pluck('name')->toArray();
             },
             function($value) { // if the filter is active
                 $this->crud->addClause('where', 'a_clinic', $value); 
         } );
         
         // List columns
-        $this->crud->setColumns(['patient_id','a_status','a_date','a_start_time','a_end_time','a_clinic']);
+        
+        $this->crud->setColumns(['patient_id','a_status','a_date','a_start_time','a_end_time']);
+        $this->crud->addColumn([
+            'label' => 'Clinic',
+            'type' => 'select',
+            'name' => 'clinic_id', // the db column for the foreign key
+            'entity' => 'clinic', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model' => "App\Models\Clinic"
+            ]);
+             
+
 
 
 
@@ -295,10 +313,11 @@ class TheAppointmentCrudController extends CrudController
 
     // }
     public function store(StoreRequest $request)
-    {
-        // your additional operations before save here
-        // new user added to tha patients table
+    // your additional operations before save here
+    // new user added to tha patients table
+    {   
         if (!The_patient::where('number', '=', $request['patient_id'])->exists()) {
+            
             $patient = new The_patient;
             $patient->number = $request['patient_id'];
             $patient->name = $request['name'];
@@ -306,7 +325,6 @@ class TheAppointmentCrudController extends CrudController
             $patient->gender = $request['gender'];
             $patient->save();
         }
-        
         $redirect_location = parent::storeCrud($request);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
@@ -315,7 +333,6 @@ class TheAppointmentCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
-        
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
         // your additional operations after save here

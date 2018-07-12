@@ -14,10 +14,18 @@ class CreateTheAppointments extends Migration
     {
         Schema::create('the_appointments', function (Blueprint $table) {
             $table->increments('id');
+
             $table->string('patient_id',16);
-            $table->foreign('patient_id')->references('number')->on('the_patient');
+            $table->foreign('patient_id')->references('number')->on('the_patient')->onDelete('cascade');
+            
+
+            $table->integer('clinic_id')->unsigned()->index()->nullable();
+            $table->foreign('clinic_id')->references('id')->on('clinics');
+
+            
+
             $table->enum('a_status', ['Confirmed', 'To Confirm' , 'Cancelled-patient treated','Closed-visit skipped','Cancelled']);
-            $table->string('a_clinic');
+            // $table->string('a_clinic');
             $table->date('a_date');
             $table->time('a_start_time');
             $table->time('a_end_time');

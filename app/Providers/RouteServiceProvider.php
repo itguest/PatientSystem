@@ -38,9 +38,12 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-         // Register CRUD routes
+      
+      	
+        // Register CRUD routes
       	$this->mapAdminRoutes();
+        
+
 
         //
     }
@@ -58,13 +61,13 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
-    protected function mapAdminRoutes()
+     protected function mapAdminRoutes()
     {
         Route::middleware(['web', 'admin'])
              ->prefix('admin') // or use the prefix from CRUD config
              ->namespace($this->namespace.'\Admin')
              ->group(base_path('routes/admin.php'));
-    } 
+    }
     /**
      * Define the "api" routes for the application.
      *
@@ -79,5 +82,4 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
-
 }

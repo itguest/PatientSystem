@@ -41,6 +41,11 @@ class TheAppointment extends Model
         return $this->belongsTo('App\Models\The_patient');
         
     }
+    public function clinic(){
+    
+        return $this->belongsTo('App\Models\Clinic');     
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

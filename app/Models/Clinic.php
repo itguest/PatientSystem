@@ -34,7 +34,10 @@ class Clinic extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function appointment(){
 
+        return $this->hasMany('App\Models\TheAppointment');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
